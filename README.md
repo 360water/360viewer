@@ -1,0 +1,1 @@
+The goal of this project is to create a html/javascript version of the 360viewer
