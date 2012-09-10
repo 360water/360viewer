@@ -19,4 +19,5 @@ img[alt="View"] {
 	z-index: 5;
 	opacity: 0.75;
 	filter:alpha(opacity=75);
+	cursor: pointer;
 }

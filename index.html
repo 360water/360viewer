@@ -26,24 +26,31 @@
 			$(document).ready(function() {
 				$(window).load(function() {
 					var left = $("#viewer").offset().left + 10;
-					var top = $("#viewer").offset().top + ($("#viewer").height() / 2) - ($(".controls").height() / 2);
+					var top = $("#viewer").offset().top + ($("#viewer").height() / 2) - ($("img[alt=leftarrow]").height() / 2);
 					$("img[alt=leftarrow]").offset({ left: left, top: top });
 					left = $("#viewer").offset().left + $("#viewer").width() - $("img[alt=rightarrow]").width() - 10;
 					$("img[alt=rightarrow]").offset({ left: left, top: top });
+					left = $("#viewer").offset().left + 10;
+					top = $("#viewer").offset().top + $("#viewer").height() - $("img[alt=help]").height() - 10;
+					$("img[alt=help]").offset({ left: left, top: top });
 				});
 				$(".controls").hover(
 					function() {
 						if ($(this).attr("alt") == "leftarrow") {
 							$(this).attr("src", "images/leftarrow-hover.png");
-						} else {
+						} else if ($(this).attr("alt") == "rightarrow") {
 							$(this).attr("src", "images/rightarrow-hover.png");
+						} else if ($(this).attr("alt") == "help") {
+							$(this).attr("src", "images/help-hover.png");
 						}
 					},
 					function() {
 						if ($(this).attr("alt") == "leftarrow") {
 							$(this).attr("src", "images/leftarrow.png");
-						} else {
+						} else if ($(this).attr("alt") == "rightarrow") {
 							$(this).attr("src", "images/rightarrow.png");
+						} else if ($(this).attr("alt") == "help") {
+							$(this).attr("src", "images/help.png");
 						}
 					}
 				);
@@ -71,6 +78,7 @@
 			<img src="images/View01.png" alt="View"/>
 			<img src="images/leftarrow.png" alt="leftarrow" class="controls"/>
 			<img src="images/rightarrow.png" alt="rightarrow" class="controls"/>
+			<img src="images/help.png" alt="help" class="controls"/>
 		</div>
 	</body>
 </html>
