@@ -9,18 +9,25 @@
 			var views = new Array();
 			views[0] = new Image(950, 534);
 			views[0].src = "images/View01.png";
+			views[0].name = "View01";
 			views[1] = new Image(950, 534);
 			views[1].src = "images/View02.png";
+			views[1].name = "View02";
 			views[2] = new Image(950, 534);
 			views[2].src = "images/View03.png";
+			views[2].name = "View03";
 			views[3] = new Image(950, 534);
 			views[3].src = "images/View04.png";
+			views[3].name = "View04";
 			views[4] = new Image(950, 534);
 			views[4].src = "images/View05.png";
+			views[4].name = "View05";
 			views[5] = new Image(950, 534);
 			views[5].src = "images/View06.png";
+			views[5].name = "View06";
 			views[6] = new Image(950, 534);
 			views[6].src = "images/View07.png";
+			views[6].name = "View07";
 			var currentView = 0;
 
 			$(document).ready(function() {
@@ -33,6 +40,14 @@
 					left = $("#viewer").offset().left + 10;
 					top = $("#viewer").offset().top + $("#viewer").height() - $("img[alt=help]").height() - 10;
 					$("img[alt=help]").offset({ left: left, top: top });
+
+					// ********** DEBUG TO GET PIN PLACEMENT ********** //
+					$("#viewer").mousemove(function(event){
+						var left = event.pageX - ($("img[title=Motor]").width() / 2) - $("#viewer").offset().left;
+						var top = event.pageY - $("img[title=Motor]").height() - $("#viewer").offset().top;
+						$("#debug").text(left + ", " + top);
+					});
+					// ********** ********** ********** //
 				});
 				$(".controls").hover(
 					function() {
@@ -70,15 +85,35 @@
 					}
 					$("img[alt=View]").attr("src", views[currentView].src);
 				});
+				var componentOn = false;
+				$("img[alt=pin]").click(function() {
+					if (componentOn) {
+						$("img[alt=component]").remove();
+						$("#screen").remove();
+						componentOn = false;
+					} else {
+						var component = "<img src=\"images/" + $(this).attr("name") + ".png\" alt=\"component\" />";
+						$("#viewer").append(component);
+						var top = $("#viewer").offset().top + ($("#viewer").height() / 2) - ($("img[alt=component]").height() / 2);
+						var left = $("#viewer").offset().left + ($("#viewer").width() / 2) - ($("img[alt=component]").width() / 2);
+						$("img[alt=component]").offset({ left: left, top: top });
+						$("#viewer").append("<div id=\"screen\"></div>");
+						componentOn = true;
+					}
+				});
 			});
 		</script>
 	</head>
 	<body>
-		<div id="viewer">
-			<img src="images/View01.png" alt="View"/>
-			<img src="images/leftarrow.png" alt="leftarrow" class="controls"/>
-			<img src="images/rightarrow.png" alt="rightarrow" class="controls"/>
-			<img src="images/help.png" alt="help" class="controls"/>
+		<div id="container">
+			<div id="viewer">
+				<img src="images/View01.png" alt="View" />
+				<img src="images/leftarrow.png" alt="leftarrow" class="controls"/>
+				<img src="images/rightarrow.png" alt="rightarrow" class="controls"/>
+				<img src="images/help.png" alt="help" class="controls"/>
+				<img src="images/pin.png" alt="pin" name="motor" title="Motor"/>
+			</div>
+			<p id="debug"></p>
 		</div>
 	</body>
 </html>
