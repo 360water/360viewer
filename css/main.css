@@ -49,3 +49,19 @@ img[title="Motor"] {
 	opacity: 0.5;
 	filter:alpha(opacity=50);
 }
+.components {
+	display: none;
+	position: absolute;
+	border: 2px solid blue;
+	z-index: 20;
+}
+.components > div {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+.components > div:hover {
+	background-color: white;
+	opacity: 0.3;
+	filter:alpha(opacity=30);
+}

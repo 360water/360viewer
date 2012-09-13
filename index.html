@@ -8,29 +8,65 @@
 		<script>
 			var views = new Array();
 			views[0] = new Image(950, 534);
-			views[0].src = "images/View01.png";
-			views[0].name = "View01";
+			views[0].src = "media/viewer/View0.png";
+			views[0].name = "View0";
 			views[1] = new Image(950, 534);
-			views[1].src = "images/View02.png";
-			views[1].name = "View02";
+			views[1].src = "media/viewer/View1.png";
+			views[1].name = "View1";
 			views[2] = new Image(950, 534);
-			views[2].src = "images/View03.png";
-			views[2].name = "View03";
+			views[2].src = "media/viewer/View2.png";
+			views[2].name = "View2";
 			views[3] = new Image(950, 534);
-			views[3].src = "images/View04.png";
-			views[3].name = "View04";
+			views[3].src = "media/viewer/View3.png";
+			views[3].name = "View3";
 			views[4] = new Image(950, 534);
-			views[4].src = "images/View05.png";
-			views[4].name = "View05";
+			views[4].src = "media/viewer/View4.png";
+			views[4].name = "View4";
 			views[5] = new Image(950, 534);
-			views[5].src = "images/View06.png";
-			views[5].name = "View06";
+			views[5].src = "media/viewer/View5.png";
+			views[5].name = "View5";
 			views[6] = new Image(950, 534);
-			views[6].src = "images/View07.png";
-			views[6].name = "View07";
+			views[6].src = "media/viewer/View6.png";
+			views[6].name = "View6";
 			var currentView = 0;
 
+			var components = new Array();
+			components[0] = new Image(500, 239);
+			components[0].src = "media/viewer/motor.png";
+			components[0].name = "Main Motor";
+			components[1] = new Image(100, 239);
+			components[1].src = "media/viewer/conveyor.png";
+			components[1].name = "Screw Conveyor";
+			components[2] = new Image(500, 239);
+			components[2].src = "media/viewer/platedams.png";
+			components[2].name = "Plate Dams";
+			components[3] = new Image(500, 239);
+			components[3].src = "media/viewer/lubricationunit.png";
+			components[3].name = "Lubrication System";
+			components[4] = new Image(500, 239);
+			components[4].src = "media/viewer/bearing.png";
+			components[4].name = "Pillow Block Bearing";
+			components[5] = new Image(500, 239);
+			components[5].src = "media/viewer/secondmotor.png";
+			components[5].name = "Secondary Motor";
+			components[6] = new Image(500, 239);
+			components[6].src = "media/viewer/shockabsorber.png";
+			components[6].name = "Shock Absorber";
+			components[7] = new Image(500, 239);
+			components[7].src = "media/viewer/centratetrough.png";
+			components[7].name = "Centrate Trough";
+			components[8] = new Image(500, 239);
+			components[8].src = "media/viewer/feedpipe.png";
+			components[8].name = "Feed Pipe";
+			components[9] = new Image(500, 239);
+			components[9].src = "media/viewer/solidsoutput.png";
+			components[9].name = "Solids Output";
+
 			$(document).ready(function() {
+				/********** INITIAL VIEW **********/
+				$(".View0").show();
+				/********** ********** **********/
+
 				$(window).load(function() {
 					var left = $("#viewer").offset().left + 10;
 					var top = $("#viewer").offset().top + ($("#viewer").height() / 2) - ($("img[alt=leftarrow]").height() / 2);
@@ -41,35 +77,56 @@
 					top = $("#viewer").offset().top + $("#viewer").height() - $("img[alt=help]").height() - 10;
 					$("img[alt=help]").offset({ left: left, top: top });
 
-					// ********** DEBUG TO GET PIN PLACEMENT ********** //
+					/********** DEBUG TO GET PIN PLACEMENT **********/
 					$("#viewer").mousemove(function(event){
-						var left = event.pageX - ($("img[title=Motor]").width() / 2) - $("#viewer").offset().left;
-						var top = event.pageY - $("img[title=Motor]").height() - $("#viewer").offset().top;
+						var left = event.pageX - $("#viewer").offset().left;
+						var top = event.pageY - $("#viewer").offset().top;
 						$("#debug").text(left + ", " + top);
 					});
-					// ********** ********** ********** //
+					var newClick = true;
+					var pinTop;
+					var pinLeft;
+					$("#viewer").click(function(event) {
+						if (newClick) {
+							pinLeft = event.pageX - $("#viewer").offset().left;
+							pinTop = event.pageY - $("#viewer").offset().top;
+							$("#clickregion").text("");
+							newClick = false;
+						} else {
+							newClick = true;
+							var newLeft = event.pageX - $("#viewer").offset().left;
+							var newTop = event.pageY - $("#viewer").offset().top;
+							var view = views[currentView].name;
+							var code = "$(\"." + view + "[title='']\").css({ \"left\" : \"" +
+								pinLeft + "px\", \"top\" : \"" + pinTop + "px\" }).width(" +
+								(newLeft - pinLeft) + ").height(" + (newTop - pinTop) + ");";
+							$("#clickregion").text(code);
+						}
+					});
+					/********** ********** **********/
 				});
 				$(".controls").hover(
 					function() {
 						if ($(this).attr("alt") == "leftarrow") {
-							$(this).attr("src", "images/leftarrow-hover.png");
+							$(this).attr("src", "media/viewer/leftarrow-hover.png");
 						} else if ($(this).attr("alt") == "rightarrow") {
-							$(this).attr("src", "images/rightarrow-hover.png");
+							$(this).attr("src", "media/viewer/rightarrow-hover.png");
 						} else if ($(this).attr("alt") == "help") {
-							$(this).attr("src", "images/help-hover.png");
+							$(this).attr("src", "media/viewer/help-hover.png");
 						}
 					},
 					function() {
 						if ($(this).attr("alt") == "leftarrow") {
-							$(this).attr("src", "images/leftarrow.png");
+							$(this).attr("src", "media/viewer/leftarrow.png");
 						} else if ($(this).attr("alt") == "rightarrow") {
-							$(this).attr("src", "images/rightarrow.png");
+							$(this).attr("src", "media/viewer/rightarrow.png");
 						} else if ($(this).attr("alt") == "help") {
-							$(this).attr("src", "images/help.png");
+							$(this).attr("src", "media/viewer/help.png");
 						}
 					}
 				);
 				$(".controls").click(function() {
+					var previousView = currentView;
 					if ($(this).attr("alt") == "leftarrow") {
 						if (currentView == 0) {
 							currentView = views.length - 1;
@@ -83,22 +140,44 @@
 							currentView++;
 						}
 					}
+
+					if (componentOn) {
+						componentOn = false;
+						$("img[alt=component]").unbind("click");
+						$("#screen").remove();
+						$("img[alt=component]").remove();
+					}
+					$(".View" + previousView).hide();
 					$("img[alt=View]").attr("src", views[currentView].src);
+					$("img[alt=View]").load(function() {
+						$(".View" + currentView).show();
+					});
 				});
 				var componentOn = false;
-				$("img[alt=pin]").click(function() {
-					if (componentOn) {
-						$("img[alt=component]").remove();
-						$("#screen").remove();
-						componentOn = false;
-					} else {
-						var component = "<img src=\"images/" + $(this).attr("name") + ".png\" alt=\"component\" />";
+				$(".components").click(function() {
+					if (componentOn == false) {
+						var index = parseInt($(this).attr("class").split(" ")[2]);
+						var component = "<img src=\"" + components[index].src +
+							"\" alt=\"component\" />";
 						$("#viewer").append(component);
-						var top = $("#viewer").offset().top + ($("#viewer").height() / 2) - ($("img[alt=component]").height() / 2);
-						var left = $("#viewer").offset().left + ($("#viewer").width() / 2) - ($("img[alt=component]").width() / 2);
-						$("img[alt=component]").offset({ left: left, top: top });
+						$("img[alt=component]").load(function() {
+							$(this).css({ "width" : components[index].width,
+								"height" : components[index].height });
+							var top = $("#viewer").offset().top + ($("#viewer").height() / 2) -
+								($("img[alt=component]").height() / 2);
+							var left = $("#viewer").offset().left + ($("#viewer").width() / 2) -
+								($("img[alt=component]").width() / 2);
+							$("img[alt=component]").offset({ left: left, top: top });
+						});
 						$("#viewer").append("<div id=\"screen\"></div>");
 						componentOn = true;
+
+						$("img[alt=component]").click(function() {
+							componentOn = false;
+							$(this).unbind("click");
+							$("#screen").remove();
+							$(this).remove();
+						});
 					}
 				});
 			});
@@ -106,14 +185,27 @@
 	</head>
 	<body>
 		<div id="container">
+			<script src="media/viewer/clickregions.js"></script>
 			<div id="viewer">
-				<img src="images/View01.png" alt="View" />
-				<img src="images/leftarrow.png" alt="leftarrow" class="controls"/>
-				<img src="images/rightarrow.png" alt="rightarrow" class="controls"/>
-				<img src="images/help.png" alt="help" class="controls"/>
-				<img src="images/pin.png" alt="pin" name="motor" title="Motor"/>
+				<img src="media/viewer/View0.png" alt="View" />
+				<img src="media/viewer/leftarrow.png" alt="leftarrow" class="controls"/>
+				<img src="media/viewer/rightarrow.png" alt="rightarrow" class="controls"/>
+				<img src="media/viewer/help.png" alt="help" class="controls"/>
+				<div class="View0 components 0" title="Main Motor"><div></div></div>
+				<div class="View0 components 3" title="Lubrication System"><div></div></div>
+				<div class="View0 components 2" title="Plate Dams"><div></div></div>
+				<div class="View0 components 1" title="Conveyor"><div></div></div>
+				<div class="View0 components 4" title="Pillow Block Bearing"><div></div></div>
+				<div class="View0 components 5" title="Shock Absorber"><div></div></div>
+				<div class="View1 components 0" title="Main Motor"><div></div></div>
+				<div class="View1 components 5" title="Secondary Motor"><div></div></div>
+				<div class="View1 components 3" title="Lubrication System"><div></div></div>
+				<div class="View1 components 2" title="Plate Dams"><div></div></div>
+				<div class="View1 components 1" title="Conveyor"><div></div></div>
+				<div class="View1 components 6" title="Shock Absorber"><div></div></div>	
 			</div>
 			<p id="debug"></p>
+			<p>Code for Click Region: <span id="clickregion"></span></p>
 		</div>
 	</body>
 </html>
