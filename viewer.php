@@ -10,49 +10,76 @@ $viewer = get_single_record($viewerQuery);
 
 $viewImagesQuery = "SELECT *
                     FROM `viewer_images`
-                    WHERE `type` = 'main'
+                    WHERE `type` = 'view'
+                    AND `viewer_id` = {$viewer['id']}
                     ORDER BY `order`";
 $viewImages = get_record_array($viewImagesQuery);
 
 $componentImagesQuery = "SELECT *
                          FROM `viewer_images`
-                         WHERE `type` = 'component'";
+                         WHERE `type` = 'component'
+                         AND `viewer_id` = {$viewer['id']}";
 $componentImages = get_record_array($componentImagesQuery);
+
+// Set the viewer div
+$script = "var viewerId = 'viewer{$viewer['id']}';";
 
 // Load the javascript images arrays
 $count = 0;
 foreach ($viewImages as $image) {
     $script .= "views[{$count}] = new Image();";
-    $script .= "views[{$count}].src = '/course_files/{$viewer['assigned_id']}/{$viewer['id']}/{$image['url']};";
+    $script .= "views[{$count}].src = '/viewer/images/{$viewer['id']}/{$image['url']}';";
     $script .= "views[{$count}].name = 'View{$count}';";
-    $count++:
+    $script .= "views[{$count}].alt = 'view';";
+    $script .= "views[{$count}].id = '{$image['id']}';";
+    $script .= "views[{$count}].className = 'view';";
+    $count++;
 }
 $count = 0;
 foreach ($componentImages as $image) {
     $script .= "components[{$count}] = new Image();";
-    $script .= "components[{$count}].src = '/course_files/{$viewer['assigned_id']}/{$viewer['id']}/{$image['url']};";
-    $script .= "components[{$count}].name = 'Component{$count}';";
-    $count++:
+    $script .= "components[{$count}].src = '/viewer/images/{$viewer['id']}/{$image['url']}';";
+    $script .= "components[{$count}].name = 'component{$count}';";
+    $script .= "components[{$count}].alt = 'component';";
+    $script .= "components[{$count}].id = '{$image['id']}';";
+    $script .= "components[{$count}].className = 'component';";
+    $count++;
+}
+
+// Create the click regions
+$hotspotsQuery = "SELECT *
+                  FROM `viewer_hotspots`
+                  WHERE `viewer_id` = {$viewer['id']}";
+$hotspots = get_record_array($hotspotsQuery);
+
+foreach($hotspots as $hotspot) {
+    $script .= "$('#viewer{$viewer['id']}').append('<div class=\"view{$hotspot['view_id']} component{$hotspot['component_id']} hotspot\"><div></div></div>');";
+    $script .= "$('.component{$hotspot['component_id']}').css({'left' : '{$hotspot['left']}px', 'top' : '{$hotspot['top']}px', 'width' : '{$hotspot['width']}px', 'height' : '{$hotspot['height']}px'});";
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>360viewer</title>
     <meta charset="utf-8" />
+    <title>360viewer</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="viewer">
+    <div id="viewer<?php echo $viewer['id'] ?>" class="viewer">
+        <div id="view"></div>
+        <div id="component"></div>
     </div>
     <script>
+    var viewWidth = "950px";
+    var viewHeight = "534px";
     var views = new Array();
     var components = new Array();
     <?php echo $script ?>
 
     var currentView = 0;
+
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://static.360water.com/viewer/js/360viewer.js"></script>
 </body>
 </html>
