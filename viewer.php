@@ -52,9 +52,11 @@ $hotspotsQuery = "SELECT *
                   WHERE `viewer_id` = {$viewer['id']}";
 $hotspots = get_record_array($hotspotsQuery);
 
+$count = 0;
 foreach($hotspots as $hotspot) {
-    $script .= "$('#viewer{$viewer['id']}').append('<div class=\"view{$hotspot['view_id']} component{$hotspot['component_id']} hotspot\"><div></div></div>');";
-    $script .= "$('.component{$hotspot['component_id']}').css({'left' : '{$hotspot['left']}px', 'top' : '{$hotspot['top']}px', 'width' : '{$hotspot['width']}px', 'height' : '{$hotspot['height']}px'});";
+    $script .= "$('#viewer{$viewer['id']}').append('<div class=\"view{$hotspot['view_id']} component{$hotspot['component_id']} hotspot hotspot{$count}\"></div>');";
+    $script .= "$('.hotspot{$count}').css({'left' : '{$hotspot['left']}px', 'top' : '{$hotspot['top']}px', 'width' : '{$hotspot['width']}px', 'height' : '{$hotspot['height']}px', 'background-position' : '-" . ($hotspot['left'] + 1) . "px -" . ($hotspot['top'] + 1) . "px'});";
+    $count++;
 }
 ?>
 
@@ -64,11 +66,19 @@ foreach($hotspots as $hotspot) {
     <meta charset="utf-8" />
     <title>360viewer</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/viewer.css">
 </head>
 <body>
     <div id="viewer<?php echo $viewer['id'] ?>" class="viewer">
-        <div id="view"></div>
-        <div id="component"></div>
+        <div id="view" class="viewContainer"></div>
+        <div id="component" class="componentContainer"></div>
+        <div id="screen" class="screen"></div>
+        <div id="help" class="help">
+            <p>Use <img src="/viewer/images/leftarrow.png" alt="Left Arrow" /> and <img src="/viewer/images/rightarrow.png" alt="Right Arrow" /> to change the views of the equipment.</p>
+            <p>Click on the highlighted regions to see a closup view of the selected component.</p>
+            <p>When a component view is shown, click again to close it.</p>
+        </div>
+        <div id="close" class="close"></div>
     </div>
     <script>
     var viewWidth = "950px";
@@ -80,6 +90,6 @@ foreach($hotspots as $hotspot) {
     var currentView = 0;
 
     </script>
-    <script src="https://static.360water.com/viewer/js/360viewer.js"></script>
+    <script src="/js/360viewer.js"></script>
 </body>
 </html>

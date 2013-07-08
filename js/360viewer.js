@@ -3,6 +3,7 @@ $(document).ready(function() {
 	/* Create the view */
 	$('#view').html(views[currentView]);
 	$('#component').hide();
+	$('#screen').hide();
 
 	/* Create the controls */
 	$('#' + viewerId).append('<img src="/viewer/images/leftarrow.png" alt="leftarrow" class="controls"/>');
@@ -18,99 +19,49 @@ $(document).ready(function() {
 	});
 
 	/* Set the CSS for the viewer */
-	$('body').css({
-		'margin' : '0',
-		'padding' : '0'
-	})
-
-	$('#' + viewerId).css({
-		'position' : 'relative',
+	$('.viewer').css({
 		'width': viewWidth,
 		'height': viewHeight,
-		'margin': '0 auto'
 	});
-
-	$('#view').css({
-		'height' : '100%',
-		'width' : '100%'
-	});
-
-	$('#component').css({
-		'height' : '100%',
-		'left' : '0',
-		'position' : 'absolute',
-		'top' : '0',
-		'width' : '100%',
-		'z-index' : '25'
-	});
-
-	$('#component > img').css({
-		'display' : 'block'
-	});
-
-	$('img').css('border', '0');
-
-	$('.view').css({
-		'height' : '100%',
-		'width' : '100%'
-	});
-	$('.controls').css({
-		'cursor' : 'pointer',
-		'filter' : 'alpha(opacity=75)',
-		'opacity' :'0.75',
-		'position' : 'absolute',
-		'width' : '50px',
-		'z-index' : '50'
-	});
-
-	$('.hotspot').css({
-		'border' : '1px solid white',
-		'cursor' : 'pointer',
-		'display' : 'none',
-		'position' : 'absolute',
-		'z-index' : '20'
-	});
-
-	$('.hotspot > div').css({
-		'height' : '100%',
-		'width' : '100%'
-	});
-
-	$('.hotspot > div').hover(
-		function() {
-			$(this).css({
-				'background-color' : 'white',
-				'filter' : 'alpha(opacity=30)',
-				'opacity' : '0.3'
-			});
-		},
-		function() {
-			$(this).css('background-color', 'transparent');
-		}
-	);
 
 	/* Set the initial click regions */
 	$('.view' + $('#view > img').attr('id')).show();
+	$('.view' + $('#view > img').attr('id')).css('background-image', 'url("' + views[currentView].src + '")');
 
 	/* Hover over controls */
 	$('.controls').hover(
 		function() {
 			if ($(this).attr('alt') == 'leftarrow') {
 				$(this).attr('src', '/viewer/images/leftarrow-hover.png');
+				$('#screen').fadeOut();
 			} else if ($(this).attr('alt') == 'rightarrow') {
 				$(this).attr('src', '/viewer/images/rightarrow-hover.png');
+				$('#screen').fadeOut();
 			} else if ($(this).attr('alt') == 'help') {
 				$(this).attr('src', '/viewer/images/help-hover.png');
+				$('#help').show(300);
 			}
 		},
 		function() {
 			if ($(this).attr('alt') == 'leftarrow') {
 				$(this).attr('src', '/viewer/images/leftarrow.png');
+				$('#screen').fadeIn();
 			} else if ($(this).attr('alt') == 'rightarrow') {
 				$(this).attr('src', '/viewer/images/rightarrow.png');
+				$('#screen').fadeIn();
 			} else if ($(this).attr('alt') == 'help') {
 				$(this).attr('src', '/viewer/images/help.png');
+				$('#help').hide(300);
 			}
+		}
+	);
+
+	$(document).hover(
+		function() {
+			$('#screen').fadeIn();
+		},
+		function() {
+			$('#screen').fadeOut();
 		}
 	);
 
@@ -137,15 +88,18 @@ $(document).ready(function() {
 			$('#screen').remove();
 			$('img[alt=component]').remove();
 			$('#component').hide();
+			$('#close').hide();
 		}
 		$('#view').html(views[currentView]);
 		$('.hotspot').hide();
 		$('.view' + $('#view > img').attr('id')).show();
+		$('.view' + $('#view > img').attr('id')).css('background-image', 'url("' + views[currentView].src + '")');
 	});
 
-	$('#component').click(function() {
+	$('#component, #close').click(function() {
 		if (componentOn) {
 			$('#component').hide();
+			$('#close').hide();
 			componentOn = false;
 		}
 	});
@@ -153,14 +107,29 @@ $(document).ready(function() {
 	/* Click on region */
 	var componentOn = false;
 	$('.hotspot').click(function() {
-		console.log($(this).attr('class'));
 		if (componentOn == false) {
 			for (i = 0; i < components.length; i++) {
 				if ($(this).hasClass('component' + components[i].id)) {
-					$('#component').css({
-						'background' : 'url(' + components[i].src + ') 50% 50% no-repeat'
-					});
+					$('#component').html(components[i]);
 					$('#component').show();
+					componentHeight = $('#component').height();
+					imageHeight = $('#component > img').height();
+					imageTop = componentHeight / 2 - imageHeight / 2;
+
+					$('.component').css({
+						'border' : '1px solid #fff',
+						'box-shadow' : '0 0 1em #000',
+						'display' : 'block',
+						'margin' : '0 auto',
+						'position' : 'relative',
+						'top' : imageTop + 'px'
+					});
+
+					closeLeft = $('#component').width() / 2 + $('#component > img').width() / 2;
+					closeTop = imageTop;
+					$('#close').css({ 'left' : closeLeft - 15, 'top' : closeTop - 15 });
+					$('#close').show();
+					$('#screen').show();
 					componentOn = true;
 				}
 			}
