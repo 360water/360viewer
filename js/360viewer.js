@@ -98,8 +98,8 @@ $(document).ready(function() {
 
 	$('#component, #close').click(function() {
 		if (componentOn) {
-			$('#component').hide();
-			$('#close').hide();
+			$('#component').fadeOut();
+			$('#close').fadeOut();
 			componentOn = false;
 		}
 	});
@@ -111,7 +111,7 @@ $(document).ready(function() {
 			for (i = 0; i < components.length; i++) {
 				if ($(this).hasClass('component' + components[i].id)) {
 					$('#component').html(components[i]);
-					$('#component').show();
+					$('#component').fadeIn();
 					componentHeight = $('#component').height();
 					imageHeight = $('#component > img').height();
 					imageTop = componentHeight / 2 - imageHeight / 2;
@@ -128,8 +128,8 @@ $(document).ready(function() {
 					closeLeft = $('#component').width() / 2 + $('#component > img').width() / 2;
 					closeTop = imageTop;
 					$('#close').css({ 'left' : closeLeft - 15, 'top' : closeTop - 15 });
-					$('#close').show();
-					$('#screen').show();
+					$('#close').fadeIn();
+					$('#screen').fadeIn();
 					componentOn = true;
 				}
 			}
