@@ -28,7 +28,7 @@ $script = "var viewerId = 'viewer{$viewer['id']}';";
 $count = 0;
 foreach ($viewImages as $image) {
     $script .= "views[{$count}] = new Image();";
-    $script .= "views[{$count}].src = '/viewer/images/{$viewer['id']}/{$image['url']}';";
+    $script .= "views[{$count}].src = '/viewer/images/viewer_{$viewer['id']}/{$image['url']}';";
     $script .= "views[{$count}].name = 'View{$count}';";
     $script .= "views[{$count}].alt = 'view';";
     $script .= "views[{$count}].id = '{$image['id']}';";
@@ -38,7 +38,7 @@ foreach ($viewImages as $image) {
 $count = 0;
 foreach ($componentImages as $image) {
     $script .= "components[{$count}] = new Image();";
-    $script .= "components[{$count}].src = '/viewer/images/{$viewer['id']}/{$image['url']}';";
+    $script .= "components[{$count}].src = '/viewer/images/viewer_{$viewer['id']}/{$image['url']}';";
     $script .= "components[{$count}].name = 'component{$count}';";
     $script .= "components[{$count}].alt = 'component';";
     $script .= "components[{$count}].id = '{$image['id']}';";
@@ -74,7 +74,7 @@ foreach($hotspots as $hotspot) {
         <div id="component" class="componentContainer"></div>
         <div id="screen" class="screen"></div>
         <div id="help" class="help">
-            <p>Use <img src="/viewer/images/leftarrow.png" alt="Left Arrow" /> and <img src="/viewer/images/rightarrow.png" alt="Right Arrow" /> to change the views of the equipment.</p>
+            <p>Use <img src="/images/viewer/leftarrow.png" alt="Left Arrow" /> and <img src="/images/viewer/rightarrow.png" alt="Right Arrow" /> to change the views of the equipment.</p>
             <p>Click on the highlighted regions to see a closup view of the selected component.</p>
             <p>When a component view is shown, click again to close it.</p>
         </div>

@@ -6,9 +6,9 @@ $(document).ready(function() {
 	$('#screen').hide();
 
 	/* Create the controls */
-	$('#' + viewerId).append('<img src="/viewer/images/leftarrow.png" alt="leftarrow" class="controls"/>');
-	$('#' + viewerId).append('<img src="/viewer/images/rightarrow.png" alt="rightarrow" class="controls"/>');
-	$('#' + viewerId).append('<img src="/viewer/images/help.png" alt="help" class="controls"/>');
+	$('#' + viewerId).append('<img src="/images/viewer/leftarrow.png" alt="leftarrow" class="controls"/>');
+	$('#' + viewerId).append('<img src="/images/viewer/rightarrow.png" alt="rightarrow" class="controls"/>');
+	$('#' + viewerId).append('<img src="images/viewer/help.png" alt="help" class="controls"/>');
 
 	/* Move the controls into place */
 	$(window).load(function() {
@@ -32,25 +32,25 @@ $(document).ready(function() {
 	$('.controls').hover(
 		function() {
 			if ($(this).attr('alt') == 'leftarrow') {
-				$(this).attr('src', '/viewer/images/leftarrow-hover.png');
+				$(this).attr('src', '/images/viewer/leftarrow-hover.png');
 				$('#screen').fadeOut();
 			} else if ($(this).attr('alt') == 'rightarrow') {
-				$(this).attr('src', '/viewer/images/rightarrow-hover.png');
+				$(this).attr('src', '/images/viewer/rightarrow-hover.png');
 				$('#screen').fadeOut();
 			} else if ($(this).attr('alt') == 'help') {
-				$(this).attr('src', '/viewer/images/help-hover.png');
+				$(this).attr('src', '/images/viewer/help-hover.png');
 				$('#help').show(300);
 			}
 		},
 		function() {
 			if ($(this).attr('alt') == 'leftarrow') {
-				$(this).attr('src', '/viewer/images/leftarrow.png');
+				$(this).attr('src', '/images/viewer/leftarrow.png');
 				$('#screen').fadeIn();
 			} else if ($(this).attr('alt') == 'rightarrow') {
-				$(this).attr('src', '/viewer/images/rightarrow.png');
+				$(this).attr('src', '/images/viewer/rightarrow.png');
 				$('#screen').fadeIn();
 			} else if ($(this).attr('alt') == 'help') {
-				$(this).attr('src', '/viewer/images/help.png');
+				$(this).attr('src', '/images/viewer/help.png');
 				$('#help').hide(300);
 			}
 		}
