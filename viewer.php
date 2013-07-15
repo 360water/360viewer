@@ -54,7 +54,7 @@ $hotspots = get_record_array($hotspotsQuery);
 
 $count = 0;
 foreach($hotspots as $hotspot) {
-    $script .= "$('#viewer{$viewer['id']}').append('<div class=\"view{$hotspot['view_id']} component{$hotspot['component_id']} hotspot hotspot{$count}\"></div>');";
+    $script .= "$('#viewer{$viewer['id']}').append('<div class=\"view{$hotspot['view_id']} component{$hotspot['component_id']} hotspot hotspot{$count}\"><div></div></div>');";
     $script .= "$('.hotspot{$count}').css({'left' : '{$hotspot['left']}px', 'top' : '{$hotspot['top']}px', 'width' : '{$hotspot['width']}px', 'height' : '{$hotspot['height']}px', 'background-position' : '-" . ($hotspot['left'] + 1) . "px -" . ($hotspot['top'] + 1) . "px'});";
     $count++;
 }
@@ -67,6 +67,18 @@ foreach($hotspots as $hotspot) {
     <title>360viewer</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/viewer.css">
+    <!--[if lte IE 8]>
+    <style>
+        .hotspot:hover > div {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: .15;
+            filter: alpha(opacity=15);
+        }
+    </style>
+    <![endif]-->
 </head>
 <body>
     <div id="viewer<?php echo $viewer['id'] ?>" class="viewer">

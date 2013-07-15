@@ -82,6 +82,9 @@ img {
         -moz-box-shadow: 0 0 1em #fff;
         box-shadow: 0 0 1em #fff;
     }
+    .hotspot > div {
+        display: none;
+    }
 .close {
     position: absolute;
     z-index: 26;
