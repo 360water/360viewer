@@ -8,7 +8,7 @@ $(document).ready(function() {
 	/* Create the controls */
 	$('#' + viewerId).append('<img src="/images/viewer/leftarrow.png" alt="leftarrow" class="controls"/>');
 	$('#' + viewerId).append('<img src="/images/viewer/rightarrow.png" alt="rightarrow" class="controls"/>');
-	$('#' + viewerId).append('<img src="images/viewer/help.png" alt="help" class="controls"/>');
+	$('#' + viewerId).append('<img src="/images/viewer/help.png" alt="help" class="controls"/>');
 
 	/* Move the controls into place */
 	$(window).load(function() {
@@ -65,75 +65,72 @@ $(document).ready(function() {
 		}
 	);
 
-	/* Click on controls */
-	$('.controls').click(function() {
-		var previousView = currentView;
-		if ($(this).attr('alt') == 'leftarrow') {
-			if (currentView == 0) {
-				currentView = views.length - 1;
-			} else {
-				currentView--
-			}
-		} else if ($(this).attr('alt') == 'rightarrow') {
-			if (currentView == views.length - 1) {
-				currentView = 0
-			} else {
-				currentView++;
-			}
-		}
-
-		if (componentOn) {
-			componentOn = false;
-			$('img[alt=component]').unbind('click');
-			$('#screen').remove();
-			$('img[alt=component]').remove();
-			$('#component').hide();
-			$('#close').hide();
-		}
-		$('#view').html(views[currentView]);
-		$('.hotspot').hide();
-		$('.view' + $('#view > img').attr('id')).show();
-		$('.view' + $('#view > img').attr('id')).css('background-image', 'url("' + views[currentView].src + '")');
-	});
-
-	$('#component, #close').click(function() {
-		if (componentOn) {
-			$('#component').fadeOut();
-			$('#close').fadeOut();
-			componentOn = false;
-		}
-	});
-
-	/* Click on region */
-	var componentOn = false;
-	$('.hotspot').click(function() {
-		if (componentOn == false) {
-			for (i = 0; i < components.length; i++) {
-				if ($(this).hasClass('component' + components[i].id)) {
-					$('#component').html(components[i]);
-					$('#component').fadeIn();
-					componentHeight = $('#component').height();
-					imageHeight = $('#component > img').height();
-					imageTop = componentHeight / 2 - imageHeight / 2;
-
-					$('.component').css({
-						'border' : '1px solid #fff',
-						'box-shadow' : '0 0 1em #000',
-						'display' : 'block',
-						'margin' : '0 auto',
-						'position' : 'relative',
-						'top' : imageTop + 'px'
-					});
-
-					closeLeft = $('#component').width() / 2 + $('#component > img').width() / 2;
-					closeTop = imageTop;
-					$('#close').css({ 'left' : closeLeft - 15, 'top' : closeTop - 15 });
-					$('#close').fadeIn();
-					$('#screen').fadeIn();
-					componentOn = true;
+	$(window).load(function() {
+		/* Click on controls */
+		$('.controls').click(function() {
+			var previousView = currentView;
+			if ($(this).attr('alt') == 'leftarrow') {
+				if (currentView == 0) {
+					currentView = views.length - 1;
+				} else {
+					currentView--
+				}
+			} else if ($(this).attr('alt') == 'rightarrow') {
+				if (currentView == views.length - 1) {
+					currentView = 0
+				} else {
+					currentView++;
 				}
 			}
-		}
+
+			if (componentOn) {
+				componentOn = false;
+				$('img[alt=component]').unbind('click');
+				$('#screen').remove();
+				$('img[alt=component]').remove();
+				$('#component').hide();
+				$('#close').hide();
+			}
+			$('#view').html(views[currentView]);
+			$('.hotspot').hide();
+			$('.view' + $('#view > img').attr('id')).show();
+			$('.view' + $('#view > img').attr('id')).css('background-image', 'url("' + views[currentView].src + '")');
+		});
+
+		$('#component, #close').click(function() {
+			if (componentOn) {
+				$('#component').fadeOut();
+				$('#close').fadeOut();
+				componentOn = false;
+			}
+		});
+
+		/* Click on region */
+		var componentOn = false;
+		$('.hotspot').click(function() {
+			if (componentOn == false) {
+				for (i = 0; i < components.length; i++) {
+					if ($(this).hasClass('component' + components[i].id)) {
+						$('#component').html(components[i]);
+						$('#component').fadeIn();
+						componentHeight = $('#component').height();
+						imageHeight = $('#component > img').height();
+						imageTop = componentHeight / 2 - imageHeight / 2;
+
+						$('.component').css({
+							'top' : imageTop + 'px'
+						});
+
+						closeLeft = $('#component').width() / 2 + $('#component > img').width() / 2;
+						closeTop = imageTop;
+						$('#close').css({ 'left' : closeLeft - 15, 'top' : closeTop - 15 });
+						$('#close').fadeIn();
+						$('#screen').fadeIn();
+						componentOn = true;
+					}
+				}
+			}
+		});
 	});
 });
 
