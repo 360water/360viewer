@@ -21,7 +21,7 @@ $(document).ready(function() {
 	/* Set the CSS for the viewer */
 	$('.viewer').css({
 		'width': viewWidth,
-		'height': viewHeight,
+		'height': viewHeight
 	});
 
 	/* Set the initial click regions */
